@@ -6,7 +6,7 @@ Spring Boot,
 Hibernate, 
 Java 17,
 JWT (Authentication & Authorization).
-# Frontend :
+# Frontend 
 Reactjs,
 Redux-Tool Kit,
 Tailwind,
