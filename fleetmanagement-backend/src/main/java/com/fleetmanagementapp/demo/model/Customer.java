@@ -32,7 +32,7 @@ public class Customer {
     @Column(name = "First_Name",length=20)
     private String firstName;
 
-    @Column(name = "Surname", length=20)
+    @Column(name = "Sur_Name", length=20)
     private String surname;
 
     @Column(name = "Phone",length=20)
