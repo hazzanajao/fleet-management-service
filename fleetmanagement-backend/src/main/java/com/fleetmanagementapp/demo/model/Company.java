@@ -20,9 +20,6 @@ public class Company {
     @Column(name="Company_ID")
     private long companyId;
 
-
-
-
     @Column(name = "Company_Name", unique = true, length=100)
     private String companyName;
 

@@ -3,9 +3,11 @@ package com.fleetmanagementapp.demo.service;
 import com.fleetmanagementapp.demo.model.ReservationDetail;
 import com.fleetmanagementapp.demo.repository.ReservationDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ReservationDetailService {
     /**
      * Injecting ReservationDetailRepository for autowiring

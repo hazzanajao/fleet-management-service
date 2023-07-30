@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="ReservationInfo")
+@Table(name="ReservationDetail")
 public class ReservationDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

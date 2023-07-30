@@ -27,11 +27,10 @@ public class CarController {
     public Car createCar(@RequestBody Car car){
         return carService.createCar(car);
     }
-    @PutMapping
+    @PutMapping("/cars/{id}")
     public Car updateCar(@PathVariable ("id") Long id, @RequestBody Car car ){
         carService.deleteCarById(id);
         car.setCarId(id);
-
         return carService.updateCar(car);
     }
     @DeleteMapping("/cars/{id}")
