@@ -44,11 +44,11 @@ public class Car {
     @JoinColumn(name="Status_ID")
     private CarStatus carStatus;
 
-    @Column(name = "Car_ImageUrl", unique = true, length = 100)
+    @Column(name = "Car_ImageUrl", unique = true, length = 400)
     private String imageUrl;
 
-    @Column(name = "Car_Code", unique = true, length = 100)
-    private String carCode;
+    @Column(name = "Car_Name", unique = true, length = 100)
+    private String name;
 
     @Column(name="Year")
     private String year;
