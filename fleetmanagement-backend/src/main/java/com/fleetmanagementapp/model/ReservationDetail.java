@@ -22,7 +22,7 @@ public class ReservationDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "Customer_ID")
-    private Customer customer;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "Car_ID")
