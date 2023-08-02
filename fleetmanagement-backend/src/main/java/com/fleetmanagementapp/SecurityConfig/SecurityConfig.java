@@ -41,8 +41,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(
-                        // Accessible public pages
+                .requestMatchers(// Accessible public pages
                         "/api/v1/users/signup",
                         "/api/v1/users/signin",
                         "/api/v1/cars"

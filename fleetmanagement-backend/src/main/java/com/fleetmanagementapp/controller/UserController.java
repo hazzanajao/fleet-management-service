@@ -74,7 +74,7 @@ public class UserController {
         user.setEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(User.Role.USER);
-        user.setRole(User.Role.ADMIN);
+       // user.setRole(User.Role.ADMIN);
         userRepository.save(user);
         return user;
     }
