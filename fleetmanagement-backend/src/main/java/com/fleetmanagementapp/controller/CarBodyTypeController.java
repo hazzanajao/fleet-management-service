@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class CarBodyTypeController {
+
     @Autowired
     private CarBodyTypeService carBodyTypeService;
 
@@ -19,18 +20,18 @@ public class CarBodyTypeController {
     }
     @GetMapping("/car-body-types/{id}")
     public CarBodyType findById(@PathVariable Long id){
-        CarBodyType carBodyType = carBodyTypeService.findCarBodyTypeById(id);
-        return carBodyType;
+        CarBodyType bodyType = carBodyTypeService.findCarBodyTypeById(id);
+        return bodyType;
     }
     @PostMapping("/car-body-types")
-    public CarBodyType createCarBodyType(@RequestBody CarBodyType carBodyType){
-        return carBodyTypeService.createCarBodyType(carBodyType);
+    public CarBodyType createCarBodyType(@RequestBody CarBodyType bodyType){
+        return carBodyTypeService.createCarBodyType(bodyType);
     }
     @PutMapping("/car-body-types/{id}")
-    public CarBodyType updateCarBodyType(@PathVariable ("id") Long id, @RequestBody CarBodyType carBodyType ){
+    public CarBodyType updateCarBodyType(@PathVariable ("id") Long id, @RequestBody CarBodyType bodyType ){
         carBodyTypeService.deleteCarBodyTypeById(id);
-        carBodyType.setBodyTypeId(id);
-        return carBodyTypeService.updateCarBodyType(carBodyType);
+        bodyType.setBodyTypeId(id);
+        return carBodyTypeService.updateCarBodyType(bodyType);
     }
     @DeleteMapping("/car-body-types/{id}")
     public void deleteCarBodyType(@PathVariable Long id){

@@ -38,16 +38,16 @@ public class Car {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BodyType_ID")
-    private CarBodyType carBodyType;
+    private CarBodyType bodyType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="Status_ID")
     private CarStatus carStatus;
 
-    @Column(name = "Car_ImageUrl", unique = true, length = 400)
+    @Column(name = "Car_ImageUrl")
     private String imageUrl;
 
-    @Column(name = "Car_Name", unique = true, length = 100)
+    @Column(name = "Car_Name")
     private String name;
 
     @Column(name="Year")
@@ -57,5 +57,15 @@ public class Car {
     private double perDayRent;
 
 
-
+    public Car(CarBodyType bodyType, CarBrand carBrand, CarColor carColor, CarModel carModel, CarStatus carStatus, String imageUrl, String name, String year, double perDayRent) {
+    this.bodyType = bodyType;
+    this.carBrand = carBrand;
+    this.carColor = carColor;
+    this.carModel = carModel;
+    this.carStatus = carStatus;
+    this.imageUrl = imageUrl;
+    this.name = name;
+    this.year= year;
+    this.perDayRent = perDayRent;
+    }
 }

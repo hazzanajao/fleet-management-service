@@ -13,8 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.Arrays;
 
 
 @Configuration
@@ -22,33 +25,55 @@ public class SecurityConfig {
 
     @Autowired
     private JwtFilter jwtFilter;
-
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+            AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public org.springframework.web.filter.CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
+                "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
+                "Access-Control-Request-Method", "Access-Control-Allow-Origin", " Access-Control-Allow-Credentials"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        HttpSecurity httpSecurity = http
-                //Cross-origin-resource-sharing: localhost:8080, localhost:4200, localhost:3000
+         http
+
+                .cors()
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(// Accessible public pages
                         "/api/v1/users/signup",
                         "/api/v1/users/signin",
-                        "/api/v1/cars"
+                        "/api/v1/employees",
+                        "/api/v1/companies",
+                        "/api/v1/cars",
+                        "api/v1/car-brands",
+                        "api/v1/car-body-types",
+                        "api/v1/car-colors",
+                        "api/v1/car-branches",
+                        "api/v1/car-status",
+                        "api/v1/car-models"
                 ).permitAll()
                 //Accessible to only ADMIN."api/v1/users/*", means all endpoints.
-                .requestMatchers("/api/v1/users/*").hasRole("ADMIN")
-                .requestMatchers("/api/v1/employees/*").hasRole("ADMIN")
+               // .requestMatchers("/api/v1/users/*").hasRole("ADMIN")
+               // .requestMatchers("/api/v1/employees/*").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

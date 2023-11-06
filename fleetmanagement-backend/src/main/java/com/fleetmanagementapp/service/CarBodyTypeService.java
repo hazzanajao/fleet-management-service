@@ -22,8 +22,8 @@ public class CarBodyTypeService {
      * CRUD : Create, Read, Update and Delete
      **********************************************/
 
-    public CarBodyType createCarBodyType(CarBodyType carBodyType){
-        return carBodyTypeRepository.save(carBodyType);
+    public CarBodyType createCarBodyType(CarBodyType bodyType){
+        return carBodyTypeRepository.save(bodyType);
     }
     // Can read all carBodyTypes
     public List<CarBodyType> findAllCarBodyTypes(){
