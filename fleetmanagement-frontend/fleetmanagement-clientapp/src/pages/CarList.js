@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import Car from "../components/Car";
 
 function CarList(){
+
     const dispatch = useDispatch()
     const {loading, error, cars} = useSelector((state)=>state.carList)
 
@@ -17,7 +18,7 @@ function CarList(){
 
     return (
         <>
-            <h1>Latest Cars</h1>
+            <h1 style={{textAlign:"center"}}>Latest Cars</h1>
             {loading && <Loader />}
             {error && <Error variant= 'danger'>{error}</Error>}
             <Row>

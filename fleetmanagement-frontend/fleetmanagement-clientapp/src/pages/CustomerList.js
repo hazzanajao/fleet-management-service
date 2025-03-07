@@ -2,7 +2,7 @@ function CustomerList(){
 
     return(
         <div>
-            <h1>Customer-Page</h1>
+            <h1 style={{textAlign:"center"}}>Customer-Page</h1>
         </div>
     )
 }

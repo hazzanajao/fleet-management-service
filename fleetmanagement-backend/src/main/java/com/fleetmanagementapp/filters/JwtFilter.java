@@ -21,40 +21,61 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtils jwtUtils;
+
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Get jwt token and validate
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        // Define publicly accessible endpoints
+        String[] publicEndpoints = {
+                "/api/v1/users/signup",
+                "/api/v1/users/signin",
+                "/api/v1/users",
+                "/api/v1/employees",
+                "/api/v1/companies",
+                "/api/v1/cars",
+                "/api/v1/swagger-ui.html",
+                "/api/v1/car-brands",
+                "/api/v1/car-body-types",
+                "/api/v1/car-colors",
+                "/api/v1/car-branches",
+                "/api/v1/car-status",
+                "/api/v1/car-models"
+        };
+
+        // Skip JWT processing for public endpoints
+        String requestURI = request.getRequestURI();
+        for (String publicEndpoint : publicEndpoints) {
+            if (requestURI.startsWith(publicEndpoint)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
+        // Get JWT token and validate
         String authorizationHeader = request.getHeader("Authorization");
 
-        // if there's no token in the header -> GET OUT OF MY SYSTEM!!!
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Get user identity and set it on the spring security context
         String token = authorizationHeader.substring(7);
         String username = jwtUtils.extractUsername(token);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         if (jwtUtils.validateToken(token, userDetails)) {
-            // add to spring security context
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource());
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities()
             );
-
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
-
         }
 
-
+        filterChain.doFilter(request, response);
     }
-
 }

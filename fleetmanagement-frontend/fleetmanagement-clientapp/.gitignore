@@ -10,6 +10,10 @@
 
 # production
 /build
+# to be removed later
+/components
+/pages
+/redux
 
 # misc
 .DS_Store

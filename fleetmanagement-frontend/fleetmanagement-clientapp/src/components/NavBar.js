@@ -11,7 +11,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 
-function NavBar(){
+function NavBar({isAuthenticated, setIsAuthenticated}){
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -27,30 +27,41 @@ function NavBar(){
 
                         <Nav className= "ms-auto">
 
-                            <Nav.Link as={Link} to= '/companyList'>
+                            {isAuthenticated &&  <Nav.Link as={Link} to= '/companyList'>
                                     <EmojiTransportationIcon/> Company
-                            </Nav.Link>
-                            <Nav.Link as={Link} to= '/carList'>
+                            </Nav.Link>}
+
+                            {isAuthenticated &&    <Nav.Link as={Link} to= '/carList'>
                                     <CarRentalIcon/>Car
-                            </Nav.Link>
-                            <Nav.Link as={Link} to='/employeeList'>
+                            </Nav.Link> }
+
+                            { isAuthenticated &&   <Nav.Link as={Link} to='/employeeList'>
                                     <PeopleIcon/> Employee
-                            </Nav.Link>
-                            <Nav.Link as={Link} to= '/customerList'>
+                            </Nav.Link>}
+
+                            {isAuthenticated &&  <Nav.Link as={Link} to= '/customerList'>
                                     <ConnectWithoutContactIcon/> Customer
-                            </Nav.Link>
-                            <Nav.Link as={Link} to= '/admin'>
+                            </Nav.Link>}
+
+                            {isAuthenticated &&  <Nav.Link as={Link} to= '/admin'>
                                     <AdminPanelSettingsIcon/> Admin
-                            </Nav.Link>
-                            <Nav.Link as={Link} to= '/user'>
+                            </Nav.Link>}
+
+                            {isAuthenticated &&  <Nav.Link as={Link} to= '/user'>
                                     <PersonIcon/> user
-                            </Nav.Link>
-                            <Nav.Link as={Link} to='/login'>
-                                    <LoginIcon/> Login
-                            </Nav.Link>
-                            <Nav.Link as={Link} to='/logout'>
-                                    <LogoutIcon/> Logout
-                            </Nav.Link>
+                            </Nav.Link>}
+
+                            {!isAuthenticated &&  <Nav.Link as={Link} to='/signin'>
+                                    <LoginIcon/>  Signin
+                            </Nav.Link>}
+
+                            {isAuthenticated &&    <Nav.Link as={Link} to='/signout'>
+                                    <LogoutIcon/>Signout
+                            </Nav.Link> }
+
+                            {!isAuthenticated &&    <Nav.Link as={Link} to='/signup'>
+                                <LogoutIcon/> Signup
+                            </Nav.Link> }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

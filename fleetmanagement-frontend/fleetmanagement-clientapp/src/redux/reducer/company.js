@@ -13,8 +13,6 @@ export const companyReducer = (state = {companies:[]}, action)=>{
             }
         case COMPANY_LIST_FAIL:
             return{...state,loading:false, error:action.payload}
-
-
         default:
             return state;
     }
@@ -28,12 +26,10 @@ export const companyDetailsReducer = (state = { company:{reviews:[]}}, action)=>
             }
         case COMPANY_DETAILS_SUCCESS:
             return{
-                ...state,loading:false, car:action.payload
+                ...state,loading:false, company:action.payload
             }
         case COMPANY_DETAILS_FAIL:
             return{...state,loading:false, error:action.payload}
-
-
         default:
             return state;
     }

@@ -21,42 +21,49 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    public UserController( UserService userService){
-        this.userService = userService;
-    }
+
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+
     @Autowired
     private JwtUtils jwtUtils;
 
     @GetMapping("/users")
-    public List<User> findAllUsers(){
+    public List<User> findAllUsers() {
         return userService.findAllUsers();
     }
+
+
     @GetMapping("/users/{id}")
-    public User findById(@PathVariable Long id){
-        User user = userService.findUserById(id);
-        return user;
-    }
-    @PostMapping("/users")
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
-    }
-    @PutMapping("users/{id}")
-    public User updateUser(@PathVariable ("id") Long id, @RequestBody User user){
-        userService.deleteUserById(id);
-        user.setUserId(id);
-        return userService.updateUser(user);
-    }
-    @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id){
-        userService.deleteUserById(id);
+    public User findById(@PathVariable Long id) {
+        return userService.findUserById(id);
     }
 
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        // Fetch the existing user, ensuring they exist
+        User updatedUser = userService.updateUser(id, user);
+        return updatedUser;
+    }
+
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+    }
 
     /***
      * SIGN UP ENDPOINT
@@ -65,16 +72,10 @@ public class UserController {
     public User signup(@RequestBody User user) {
         User existingUser = userRepository.findUserByEmail(user.getEmail());
         if (existingUser != null) {
-            return null;
+            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists.");
         }
-        user.setUsername(user.getUsername());
-        user.setFirstName(user.getFirstName());
-        user.setSurname(user.getSurname());
-        user.setPhone(user.getPhone());
-        user.setEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(User.Role.USER);
-       // user.setRole(User.Role.ADMIN);
         userRepository.save(user);
         return user;
     }
@@ -84,16 +85,20 @@ public class UserController {
      ************************************************/
     @PostMapping("/users/signin")
     public Map<String, String> login(@RequestBody AuthRequest authRequest) {
-        Map<String, String> token = new HashMap<>();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authRequest.getUsername(),
                         authRequest.getPassword()
                 )
         );
+
         User user = userRepository.findByUsername(authRequest.getUsername());
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid username or password.");
+        }
+
+        Map<String, String> token = new HashMap<>();
         token.put("token", jwtUtils.generateToken(user));
         return token;
     }
-
 }

@@ -17,7 +17,7 @@ function CompanyList(){
 
     return (
         <>
-            <h1>Company List</h1>
+            <h1 style={{textAlign:"center"}}>Company List</h1>
             {loading && <Loader />}
             {error && <Error variant= 'danger'>{error}</Error>}
             <Row>

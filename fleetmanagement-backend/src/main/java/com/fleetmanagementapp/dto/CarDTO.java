@@ -16,7 +16,6 @@ public class CarDTO {
     private long modelId;
     private long colorId;
     private long statusId;
-
     private String imageUrl;
     private String name;
     private String year;

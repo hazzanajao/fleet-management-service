@@ -28,7 +28,6 @@ function CarListDetail({ match }){
                 <Col md={6}>
                     <Image src={car.imageUrl} alt={car.name} fluid />
                 </Col>
-
                 <Col md={3}>
                     <ListGroup variant="flush">
                         <ListGroup.Item>

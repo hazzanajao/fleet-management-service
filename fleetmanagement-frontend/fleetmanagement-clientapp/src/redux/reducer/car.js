@@ -33,7 +33,6 @@ export const carDetailsReducer = (state = { car:{reviews:[]}}, action)=>{
         case CAR_DETAILS_FAIL:
             return{...state,loading:false, error:action.payload}
 
-
         default:
             return state;
     }
